@@ -6,7 +6,7 @@ import pandas as pd
 
 # Importing the data from our test file
 
-data = pd.read_excel(r'W:\DATAFILES\TPOWNELL\Differential Speed Sensor Project\Testing\7-31-23\3rdgearfulltesthyd7-31-23_filtered.xlsx') 
+data = pd.read_excel(r'W:\DATAFILES\TPOWNELL\Differential Speed Sensor Project\Testing\7-31-23\2ndgearfulltesthyd7-31-23_filtered_filtered.xlsx') 
 TimeData10ms = pd.DataFrame(data, columns=['TransmissionOutputShaftSpeed(Time)'])
 TimeData50ms = pd.DataFrame(data, columns=['LH_Frequency(Time)'])
 TimeData250ms = pd.DataFrame(data, columns =['YawRate(Time)'])
