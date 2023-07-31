@@ -6,7 +6,7 @@ import pandas as pd
 
 # Importing the data from our test file
 
-data = pd.read_excel(r'W:\DATAFILES\TPOWNELL\Differential Speed Sensor Project\6-14-23\6-20-23-TEST1_filtered.xlsx') 
+data = pd.read_excel(r'W:\DATAFILES\TPOWNELL\Differential Speed Sensor Project\Testing\7-31-23\3rdgearfulltesthyd7-31-23_filtered.xlsx') 
 TimeData10ms = pd.DataFrame(data, columns=['TransmissionOutputShaftSpeed(Time)'])
 TimeData50ms = pd.DataFrame(data, columns=['LH_Frequency(Time)'])
 TimeData250ms = pd.DataFrame(data, columns =['YawRate(Time)'])
@@ -43,6 +43,7 @@ Disengage_Conditions = Disengage_Conditions.to_numpy()*1.3*scalar
 Left_Wheel_Speed =  Left_Wheel_Speed.to_numpy()*(60/2)*rpm_to_mph*rpm_to_hz # Converting raw Hz data into RPM via the 60/2 conversion factor
 Right_Wheel_Speed =  Right_Wheel_Speed.to_numpy()*(60/2)*rpm_to_mph*rpm_to_hz
 Transmission_Speed = Transmission_Speed.to_numpy()*(1/3.36)*rpm_to_mph*rpm_to_hz # Converting raw rpm data to the differential output via the correction factor
+Vehicle_Speed = Transmission_Speed*0.011018*60/2*3.36
 
 # Also divide by 1000 to get the time in seconds
 TimeData50ms = TimeData50ms.to_numpy()/1000
@@ -67,6 +68,7 @@ fig, (ax0, ax1, ax2) = plot.subplots(3, 1)
 ax0.plot(TimeData10ms,Transmission_Speed, label="Transmission Expected Speed")
 ax0.plot(TimeData50ms, Left_Wheel_Speed, "-m", label="Left Wheel Speed")
 ax0.plot(TimeData50ms, Right_Wheel_Speed, "-r", label="Right Wheel Speed")
+ax0.plot(TimeData10ms, Vehicle_Speed, "k", label = "Vehicle Ground Speed")
 #plot.plot(TimeData10ms, Transmission_Speed, "-g", label="Transmission Based Expected Speed")
 ax2.plot(TimeData50ms, Input_Validation, "-m", label="Input Validation Passed")
 ax2.plot(TimeData50ms, Engage_Conditions, "-b", label="Engage Conditions")
@@ -87,7 +89,7 @@ ax2.legend(loc="lower right")
 
 # Give x,y, title axis label
 ax2.set_xlabel('Time [seconds]')
-ax0.set_ylabel('Amplitude [Hz]')
+ax0.set_ylabel('Amplitude [Hz] + [MPH]')
 ax1.set_ylabel('Amplitude [Deg] + [Deg/s]')
 ax2.set_ylabel('True / False')
 
