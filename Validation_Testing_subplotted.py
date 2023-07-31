@@ -6,7 +6,7 @@ import pandas as pd
 
 # Importing the data from our test file
 
-data = pd.read_excel(r'W:\DATAFILES\TPOWNELL\Differential Speed Sensor Project\Testing\7-31-23\2ndgearfulltesthyd7-31-23_filtered_filtered.xlsx') 
+data = pd.read_excel(r'W:\DATAFILES\TPOWNELL\Differential Speed Sensor Project\Testing\7-31-23\3rdgearfulltesthyd7-31-23_filtered.xlsx') 
 TimeData10ms = pd.DataFrame(data, columns=['TransmissionOutputShaftSpeed(Time)'])
 TimeData50ms = pd.DataFrame(data, columns=['LH_Frequency(Time)'])
 TimeData250ms = pd.DataFrame(data, columns =['YawRate(Time)'])
@@ -21,6 +21,8 @@ No_Spin_Condition = pd.DataFrame(data, columns=['No_Spin_Condition(Y)'])
 Switch_Status = pd.DataFrame(data, columns=['Diff_Lock_Switch(Hz)'])
 WAS_vel = pd.DataFrame(data,columns=['YawRate(deg/s)'])
 WAS_pos = pd.DataFrame(data,columns=['SteeringWheelAngle(deg)'])
+Engine_Torque = pd.DataFrame(data,columns=['ActualEnginePercentTorque'])
+TimeData20ms = pd.DataFrame(data,columns=['ActualEnginePercentTorque(Time)'])
 #print(Left_Wheel_Speed)
 
 #rpm_to_mph = (33.6*60*2*3.1415)/(12*5280*5.4)
@@ -44,10 +46,12 @@ Left_Wheel_Speed =  Left_Wheel_Speed.to_numpy()*(60/2)*rpm_to_mph*rpm_to_hz # Co
 Right_Wheel_Speed =  Right_Wheel_Speed.to_numpy()*(60/2)*rpm_to_mph*rpm_to_hz
 Transmission_Speed = Transmission_Speed.to_numpy()*(1/3.36)*rpm_to_mph*rpm_to_hz # Converting raw rpm data to the differential output via the correction factor
 Vehicle_Speed = Transmission_Speed*0.011018*60/2*3.36
+Engine_Torque = Engine_Torque.to_numpy()/100
 
 # Also divide by 1000 to get the time in seconds
 TimeData50ms = TimeData50ms.to_numpy()/1000
 TimeData10ms = TimeData10ms.to_numpy()/1000
+TimeData20ms = TimeData20ms.to_numpy()/1000
 TimeData250ms = TimeData250ms.to_numpy()/1000
 
 # Secondary Calculations
@@ -70,9 +74,9 @@ ax0.plot(TimeData50ms, Left_Wheel_Speed, "-m", label="Left Wheel Speed")
 ax0.plot(TimeData50ms, Right_Wheel_Speed, "-r", label="Right Wheel Speed")
 ax0.plot(TimeData10ms, Vehicle_Speed, "k", label = "Vehicle Ground Speed")
 #plot.plot(TimeData10ms, Transmission_Speed, "-g", label="Transmission Based Expected Speed")
-ax2.plot(TimeData50ms, Input_Validation, "-m", label="Input Validation Passed")
-ax2.plot(TimeData50ms, Engage_Conditions, "-b", label="Engage Conditions")
-ax2.plot(TimeData50ms, Disengage_Conditions, "-r", label="Disengage Conditions")
+#ax2.plot(TimeData50ms, Input_Validation, "-m", label="Input Validation Passed")
+#ax2.plot(TimeData50ms, Engage_Conditions, "-b", label="Engage Conditions")
+#ax2.plot(TimeData50ms, Disengage_Conditions, "-r", label="Disengage Conditions")
 #plot.plot(TimeData50ms, Wheel_Speeds_Match, "-b", label="Wheel Speed Match")
 #plot.plot(TimeData50ms, No_Spin_Condition, "-k", label="No Slip")
 #plot.plot(TimeData50ms, Wheel_Speed_Average, "-c", label="Average Differential Output Speed")
@@ -80,6 +84,7 @@ ax2.plot(TimeData50ms, Disengage_Conditions, "-r", label="Disengage Conditions")
 #plot.plot(TimeData50ms, top_bar,":k",label="Top Bar")
 #plot.plot(TimeData50ms, lower_bar,':k',label="Low Bar")
 ax2.plot(TimeData50ms, Switch_Status, "-k", label = "Switch Status")
+ax2.plot(TimeData20ms, Engine_Torque, "-r", label = "ECM % Torque")
 ax1.plot(TimeData250ms,WAS_pos,"-k", label="WAS Position")
 ax1.plot(TimeData250ms,WAS_vel,"-g", label="WAS Velocity")
 ax0.legend(loc="upper right")
@@ -99,7 +104,6 @@ ax2.set_title('Logical Response')
 
 # Provide x axis and black line color
 #plot.axhline(y=0, color='k')
-
 # Display
 #ax0.savefig(r'W:\DATAFILES\TPOWNELL\Differential Speed Sensor Project\6-14-23\PNG Charts\chart.png',dpi ='figure')
 plot.show()
