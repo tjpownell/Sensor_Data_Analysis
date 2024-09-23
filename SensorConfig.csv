@@ -1,0 +1,5 @@
+Variable_name,mvMax,mvMin,unitMax,unitMin,unit
+RightTiltSensor,4411,848,12.5,-6.8,deg
+LeftTiltSensor,500,4040,12.5,-6.8,deg
+RackRollTiltSensor,4261,1346,6,-6,deg
+RackPitchTiltSensor,1564,4280,90.0,20.5,inch
